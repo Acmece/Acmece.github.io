@@ -41,7 +41,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
@@ -101,4 +101,4 @@ deploy:
   type: git
   repo: https://github.com/Acmece/Acmece.github.io.git
   branch: master
-  message: math support
+  #message: 
