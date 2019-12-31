@@ -53,10 +53,13 @@
 <meta property="og:site_name" content="Universe Lau">
 <meta property="og:description" content="This post includes kinematic and dynamic models of mobile robots.">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2019/12/31/Models-of-mobile-robots/tw_1.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/31/Models-of-mobile-robots/tw_2.png">
 <meta property="article:published_time" content="2019-12-31T08:51:01.000Z">
-<meta property="article:modified_time" content="2019-12-31T09:35:09.871Z">
+<meta property="article:modified_time" content="2019-12-31T14:34:37.720Z">
 <meta property="article:author" content="Universe Lau">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/31/Models-of-mobile-robots/tw_1.png">
 
 <link rel="canonical" href="http://yoursite.com/2019/12/31/Models-of-mobile-robots/">
 
@@ -203,7 +206,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-12-31 16:51:01 / Modified: 17:35:09" itemprop="dateCreated datePublished" datetime="2019-12-31T16:51:01+08:00">2019-12-31</time>
+              <time title="Created: 2019-12-31 16:51:01 / Modified: 22:34:37" itemprop="dateCreated datePublished" datetime="2019-12-31T16:51:01+08:00">2019-12-31</time>
             </span>
 
           
@@ -218,8 +221,27 @@
 
       
         <p>This post includes kinematic and dynamic models of mobile robots.<br><a id="more"></a></p>
-<p>this is inline test $x_1 = x_2$, what do you think about it</p>
-<script type="math/tex; mode=display">y_1 = y_2</script>
+<h4 id="Coordinate-Transformation"><a href="#Coordinate-Transformation" class="headerlink" title="Coordinate Transformation"></a>Coordinate Transformation</h4><p>Inertial frame is fixed and usually relative to earth. Body frame is attached to vehicle, origin at the center of gravity or center of rotation. The location of a point $P$ in Body frame.</p>
+<script type="math/tex; mode=display">P_E = C_{BE}(\theta)P_B + O_{BE}</script><p>where $C_{BE}$ refers to the rotation from inertial frame to the body frame.</p>
+<h4 id="Nonholonomic-constrain"><a href="#Nonholonomic-constrain" class="headerlink" title="Nonholonomic constrain"></a>Nonholonomic constrain</h4><p>It is a a constraint on the rate of change of degree of freedom. Vehicle velocity always tangent to current path, i.e.:</p>
+<script type="math/tex; mode=display">\frac{dy}{dx} = tan(\theta) = \frac{sin\theta}{cos\theta}</script><p>Thus, we derive the nonholonomic constrain:</p>
+<script type="math/tex; mode=display">\dot{y}cos\theta = \dot{x}sin\theta</script><h4 id="Two-wheeled-robot-kinematic-model"><a href="#Two-wheeled-robot-kinematic-model" class="headerlink" title="Two wheeled robot kinematic model"></a>Two wheeled robot kinematic model</h4><!-- ![two wheeled robot pic 1](tw_1.png) -->
+<p>Kinematic constraint:</p>
+<script type="math/tex; mode=display">v_i = rw_i</script><figure float="center">
+<img src="tw_1.png" alt="two wheeled robot pic 1" title="[title]">
+<img src="tw_2.png" alt="two wheeled robot pic 2" title="[title]">
+</figure>
+
+<p>The velocity is the average of two wheel velocities. ICR refers to instantaneous center of rotation:</p>
+<script type="math/tex; mode=display">v = \frac{v_1+ v_2}{2} = \frac{rw_1+rw_2}{2}</script><script type="math/tex; mode=display">w = \frac{-v_2}{p} = -\frac{v_2-v_1}{2l} =-\frac{rw_2-rw_1}{2l}</script><p>Kinematic model in continuous time form:</p>
+<script type="math/tex; mode=display">
+\dot{x} = \frac{rw_1+rw_2}{2} cos\theta\\
+\dot{y} = \frac{rw_1+rw_2}{2} sin\theta\\
+\dot{\theta} = \frac{rw_1-rw_2}{2l}</script><p>Kinematic model in discrete time form:</p>
+<script type="math/tex; mode=display">
+x_{k+1} = x_{k} + [\frac{rw_{1,k}+rw_{2,k}}{2}cos\theta_k] \Delta t\\
+y_{k+1} = y_{k} + [\frac{rw_{1,k}+rw_{2,k}}{2}cos\theta_k] \Delta t\\
+\theta_{k+1} = \theta_k + (\frac{rw_{1,k}-rw_{2,k}}{2l})\Delta t</script>
     </div>
 
     
@@ -290,6 +312,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Coordinate-Transformation"><span class="nav-number">1.</span> <span class="nav-text">Coordinate Transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nonholonomic-constrain"><span class="nav-number">2.</span> <span class="nav-text">Nonholonomic constrain</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Two-wheeled-robot-kinematic-model"><span class="nav-number">3.</span> <span class="nav-text">Two wheeled robot kinematic model</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
