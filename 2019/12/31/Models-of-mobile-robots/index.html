@@ -55,8 +55,10 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2019/12/31/Models-of-mobile-robots/tw_1.png">
 <meta property="og:image" content="http://yoursite.com/2019/12/31/Models-of-mobile-robots/tw_2.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/31/Models-of-mobile-robots/kbm_r.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/31/Models-of-mobile-robots/kbm_cg.png">
 <meta property="article:published_time" content="2019-12-31T08:51:01.000Z">
-<meta property="article:modified_time" content="2019-12-31T14:34:37.720Z">
+<meta property="article:modified_time" content="2020-01-02T13:00:31.593Z">
 <meta property="article:author" content="Universe Lau">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2019/12/31/Models-of-mobile-robots/tw_1.png">
@@ -204,10 +206,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-12-31 16:51:01 / Modified: 22:34:37" itemprop="dateCreated datePublished" datetime="2019-12-31T16:51:01+08:00">2019-12-31</time>
+              <time title="Created: 2019-12-31 16:51:01" itemprop="dateCreated datePublished" datetime="2019-12-31T16:51:01+08:00">2019-12-31</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-02 21:00:31" itemprop="dateModified" datetime="2020-01-02T21:00:31+08:00">2020-01-02</time>
+              </span>
 
           
 
@@ -220,9 +228,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>This post includes kinematic and dynamic models of mobile robots.<br><a id="more"></a></p>
-<h4 id="Coordinate-Transformation"><a href="#Coordinate-Transformation" class="headerlink" title="Coordinate Transformation"></a>Coordinate Transformation</h4><p>Inertial frame is fixed and usually relative to earth. Body frame is attached to vehicle, origin at the center of gravity or center of rotation. The location of a point $P$ in Body frame.</p>
-<script type="math/tex; mode=display">P_E = C_{BE}(\theta)P_B + O_{BE}</script><p>where $C_{BE}$ refers to the rotation from inertial frame to the body frame.</p>
+        <p>This post includes kinematic and dynamic models of mobile robots.<br><a id="more"></a><br>At low speed, it is often sufficient to look only at the kinematic model of vehicles, such as two wheeled robot or bicycle model. Dynamic modeling is more involved but captures vehicle behavior more precise over a wide operating range. In some case, the dynamic model is more important because:</p>
+<ul>
+<li>At high speed and slippery roads, vehicles do not satisfy no slip condition.</li>
+<li>Forces such as drag, road friction govern requier throttle inputs.</li>
+</ul>
+<h4 id="Coordinate-transformation"><a href="#Coordinate-transformation" class="headerlink" title="Coordinate transformation"></a>Coordinate transformation</h4><p>The inertial frame is fixed and usually relative to earth. The body frame is attached to the vehicle, origin at the center of gravity or center of rotation. The location of a point $P$ in Body frame:</p>
+<script type="math/tex; mode=display">P_E = C_{BE}(\theta)P_B + O_{BE}</script><p>,where $C_{BE}$ refers to the rotation from the inertial frame to the body frame.</p>
 <h4 id="Nonholonomic-constrain"><a href="#Nonholonomic-constrain" class="headerlink" title="Nonholonomic constrain"></a>Nonholonomic constrain</h4><p>It is a a constraint on the rate of change of degree of freedom. Vehicle velocity always tangent to current path, i.e.:</p>
 <script type="math/tex; mode=display">\frac{dy}{dx} = tan(\theta) = \frac{sin\theta}{cos\theta}</script><p>Thus, we derive the nonholonomic constrain:</p>
 <script type="math/tex; mode=display">\dot{y}cos\theta = \dot{x}sin\theta</script><h4 id="Two-wheeled-robot-kinematic-model"><a href="#Two-wheeled-robot-kinematic-model" class="headerlink" title="Two wheeled robot kinematic model"></a>Two wheeled robot kinematic model</h4><!-- ![two wheeled robot pic 1](tw_1.png) -->
@@ -241,7 +253,29 @@
 <script type="math/tex; mode=display">
 x_{k+1} = x_{k} + [\frac{rw_{1,k}+rw_{2,k}}{2}cos\theta_k] \Delta t\\
 y_{k+1} = y_{k} + [\frac{rw_{1,k}+rw_{2,k}}{2}cos\theta_k] \Delta t\\
-\theta_{k+1} = \theta_k + (\frac{rw_{1,k}-rw_{2,k}}{2l})\Delta t</script>
+\theta_{k+1} = \theta_k + (\frac{rw_{1,k}-rw_{2,k}}{2l})\Delta t</script><h4 id="The-kinematic-bicycle-model"><a href="#The-kinematic-bicycle-model" class="headerlink" title="The kinematic bicycle model"></a>The kinematic bicycle model</h4><p>The 2D kinematic bicycle model is also known as the simplified car model. When the reference point is at the rear wheel,</p>
+<figure float="center">
+<img src="kbm_r.png" alt="kinematic bicycle model with rear wheel reference point" title="kinematic bicycle model with rear wheel reference point">
+</figure>
+
+<script type="math/tex; mode=display">
+\dot{x_r}=v_rcos\theta\\
+\dot{y_r}=v_rsin\theta\\
+\dot{\theta_r} = \frac{v_r}{R} = \frac{v_rtan\delta}{L}</script><p>Similarly, if the reference point is at the front wheel:</p>
+<script type="math/tex; mode=display">
+\dot{x_f} = v_fcos(\delta + \theta)\\
+\dot{y_f} = v_fsin(\delta + \theta)\\
+\dot{\theta_f} = \frac{v_fsin\delta}{L}</script><p>However, if the desired point is at the center of gravity(CG):</p>
+<figure float="center">
+<img src="kbm_cg.png" alt="kinematic bicycle model with CG reference point" title="kinematic bicycle model with CG reference point">
+</figure>
+
+<script type="math/tex; mode=display">
+\dot{x_c} = v_ccos(\beta + \theta)\\
+\dot{y_c} = v_csin(\beta + \theta)\\
+\dot{\theta} = \frac{v_c tan\delta cos\beta}{L}\\
+\frac{L_r}{tan\beta} = \frac{L}{tan\delta}</script><p>With $\dot{\delta} = \psi$, we can modify the CG kinematic bicycle modle to use steering rate input. Hence we have:<br>$State:[x, y, \theta, \delta]^T, Input:[v, \psi]$</p>
+<h4 id="Dynamic-model"><a href="#Dynamic-model" class="headerlink" title="Dynamic model"></a>Dynamic model</h4>
     </div>
 
     
@@ -312,7 +346,7 @@ y_{k+1} = y_{k} + [\frac{rw_{1,k}+rw_{2,k}}{2}cos\theta_k] \Delta t\\
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Coordinate-Transformation"><span class="nav-number">1.</span> <span class="nav-text">Coordinate Transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nonholonomic-constrain"><span class="nav-number">2.</span> <span class="nav-text">Nonholonomic constrain</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Two-wheeled-robot-kinematic-model"><span class="nav-number">3.</span> <span class="nav-text">Two wheeled robot kinematic model</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Coordinate-transformation"><span class="nav-number">1.</span> <span class="nav-text">Coordinate transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nonholonomic-constrain"><span class="nav-number">2.</span> <span class="nav-text">Nonholonomic constrain</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Two-wheeled-robot-kinematic-model"><span class="nav-number">3.</span> <span class="nav-text">Two wheeled robot kinematic model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#The-kinematic-bicycle-model"><span class="nav-number">4.</span> <span class="nav-text">The kinematic bicycle model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dynamic-model"><span class="nav-number">5.</span> <span class="nav-text">Dynamic model</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -352,7 +386,7 @@ y_{k+1} = y_{k} + [\frac{rw_{1,k}+rw_{2,k}}{2}cos\theta_k] \Delta t\\
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
